@@ -1,5 +1,5 @@
 import '../scss/styles.scss'
-import { AppointmentStack, createAppointmentListItemHTML } from './components/appointments';
+import { AppointmentStack, createAppointmentListItemHTML, renderAppointmentTable } from './components/appointments';
 
 const appointmentStack = new AppointmentStack(renderAppointmentList);
 
@@ -38,6 +38,7 @@ function renderAppointmentList() {
 }
 
 document.addEventListener('DOMContentLoaded', renderAppointmentList());
+document.addEventListener('DOMContentLoaded', renderAppointmentTable(appointmentStack.getSortedStack()));
 document.querySelectorAll('input[name="options"]').forEach((radio) => {
   radio.addEventListener('change', renderAppointmentList);
 });

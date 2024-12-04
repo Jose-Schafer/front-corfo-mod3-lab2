@@ -1,3 +1,4 @@
+import { calculateDiscountedCost, calculateTotalHours } from './utils';
 export function createDoctorListItemHTML(name, specialty) {
   const doctorOption = document.createElement('option');
   doctorOption.innerHTML = `
@@ -63,3 +64,50 @@ export function createUpcommingAppointmentItemHTML(appointment) {
 
   return appointmentItem;
 }
+
+export const renderAppointmentTable = (appointments, pricePerAppointment = 20000) => {
+  // Group by patient name
+  const appointmentsByPatient = appointments.reduce((acc, appointment) => {
+    const { paciente } = appointment;
+    if (!acc[paciente]) acc[paciente] = [];
+    acc[paciente].push(appointment);
+    return acc;
+  }, {});
+
+  // Create table
+  let tableHtml = `
+    <table class="table" border="1">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Number of Appointments</th>
+          <th>Total Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (const patient in appointmentsByPatient) {
+    const patientAppointments = appointmentsByPatient[patient];
+    const numberOfAppointments = patientAppointments.length;
+    const totalCost = calculateDiscountedCost(numberOfAppointments, pricePerAppointment);
+
+    tableHtml += `
+      <tr>
+        <td>${patient}</td>
+        <td>${numberOfAppointments}</td>
+        <td>$${totalCost.toFixed(2)}</td>
+      </tr>
+    `;
+  }
+
+  tableHtml += `
+      </tbody>
+    </table>
+    <p>Total hours of consultation: ${calculateTotalHours(appointments)}</p>
+  `;
+
+  const container = document.getElementById("appointment-table-container");
+  container.innerHTML = tableHtml;
+};
+
