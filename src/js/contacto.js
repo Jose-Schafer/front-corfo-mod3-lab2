@@ -20,7 +20,7 @@ async function renderDoctorList() {
     const doctors = [...especialistas, ...generales]
 
     // Doctor list
-    const container = document.getElementById("doctor-list");
+    const container = document.getElementById("doctorDropdownMenu");
 
     doctors.forEach((doctor) => {
       let customDoctor = { ...doctor };
@@ -28,12 +28,29 @@ async function renderDoctorList() {
 
       const { name, specialty } = customDoctor;
 
-      const doctorCard = createDoctorListItemHTML(name, specialty, appointmentStack);
-      container.appendChild(doctorCard);
+      const doctorListItem = createDoctorListItemHTML(name, specialty);
+      container.appendChild(doctorListItem);
     })
   } catch (error) {
     console.log("Error while obtaining the list of doctors:", error.message)
   }
+}
+
+async function contactFormSend(event) {
+
+  // Get appointment details
+  const inputNombre = document.getElementById("nombre");
+  const paciente = inputNombre.value;
+
+  const inputFechaHora = document.getElementById("fechaHora");
+  const fechaHora = inputFechaHora.value;
+
+  const doctorDropdown = document.getElementById("doctorDropdownMenu");
+  const selectedDoctor = doctorDropdown.options[doctorDropdown.selectedIndex].value;
+
+  // Extract name and specialty from the selected value
+  const [name, specialty] = selectedDoctor.split(" - ");
+  appointmentStack.push({ name, specialty, paciente, fechaHora })
 }
 
 async function renderUpcommingAppointmentList() {
@@ -49,3 +66,5 @@ async function renderUpcommingAppointmentList() {
 
 document.addEventListener('DOMContentLoaded', renderDoctorList);
 document.addEventListener('DOMContentLoaded', renderUpcommingAppointmentList);
+const sendButton = document.getElementById('contactFormSendButton');
+sendButton.addEventListener('click', contactFormSend);

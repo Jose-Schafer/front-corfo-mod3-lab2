@@ -56,7 +56,15 @@
                     </div>
 
                      <!-- Doctor List -->
-                    <div id="doctor-list" class="row my-4"></div>
+                    <div class="dropdown mx-auto my-2">
+                        <label for="name" class="form-label">Doctor:</label>
+                        <select class="form-select" aria-labelledby="doctorDropdownButton" id="doctorDropdownMenu">
+                        <!-- Doctor options will be appended here -->
+                        </select>
+                    </div>
+                    <button class="btn btn-success" id="contactFormSendButton">
+                        Enviar
+                    </button>
                 </form>
             </div>
 
