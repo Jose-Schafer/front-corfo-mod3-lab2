@@ -1,7 +1,7 @@
 [
   {
     "name": "Dr. juan",
-    "specialty": "especialista en traumatología.",
+    "specialty": "Traumatología.",
     "image": "public/static/img/doctor_1.png",
     "experience": 7,
     "diplomas": {
@@ -11,7 +11,7 @@
   },
   {
     "name": "Dr. pedro",
-    "specialty": "especialista en otorrinolaringología.",
+    "specialty": "Otorrinolaringología.",
     "image": "public/static/img/doctor_2.png",
     "experience": 5,
     "diplomas": {
@@ -21,7 +21,7 @@
   },
   {
     "name": "Dr. josé",
-    "specialty": "especialista en kinesiología.",
+    "specialty": "Kinesiología.",
     "image": "public/static/img/doctor_3.png",
     "experience": 8,
     "diplomas": {
@@ -31,7 +31,7 @@
   },
   {
     "name": "Dr. eduardo",
-    "specialty": "especialista en gediatría.",
+    "specialty": "Gediatría.",
     "image": "public/static/img/doctor_4.png",
     "experience": 10,
     "diplomas": {

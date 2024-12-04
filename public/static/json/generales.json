@@ -1,7 +1,7 @@
 [
   {
     "name": "Dr. ricardo",
-    "specialty": "Médico General",
+    "specialty": "Cirujano",
     "image": "public/static/img/doctor_1.png",
     "experience": 3,
     "diplomas": {
@@ -11,7 +11,7 @@
   },
   {
     "name": "Dr. luis",
-    "specialty": "Médico General",
+    "specialty": "Cirujano",
     "image": "public/static/img/doctor_2.png",
     "experience": 10,
     "diplomas": {
@@ -21,7 +21,7 @@
   },
   {
     "name": "Dr. victor",
-    "specialty": "Médico General",
+    "specialty": "Cirujano",
     "image": "public/static/img/doctor_3.png",
     "experience": 2,
     "diplomas": {
@@ -31,7 +31,7 @@
   },
   {
     "name": "Dr. lucio",
-    "specialty": "Médico General",
+    "specialty": "Cirujano",
     "image": "public/static/img/doctor_4.png",
     "experience": 4,
     "diplomas": {
