@@ -3,7 +3,41 @@ import { AppointmentStack, createDoctorListItemHTML, capitalizeAllAttributes, cr
 import { fetchDoctorData } from './api/doctors';
 
 const message = () => {
-  alert("Tu cita fue agendada correctamente")
+  // Create a toast container if it doesn't already exist
+  let toastContainer = document.getElementById('toast-container');
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.id = 'toast-container';
+    toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+    document.body.appendChild(toastContainer);
+  }
+
+  // Create the toast element
+  const toast = document.createElement('div');
+  toast.className = 'toast align-items-center text-bg-success border-0';
+  toast.role = 'alert';
+  toast.ariaLive = 'assertive';
+  toast.ariaAtomic = 'true';
+  toast.innerHTML = `
+    <div class="d-flex">
+      <div class="toast-body">
+        Tu cita fue agendada correctamente.
+      </div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+  `;
+
+  // Append the toast to the container
+  toastContainer.appendChild(toast);
+
+  // Initialize and show the toast using Bootstrap's JavaScript
+  const bootstrapToast = new bootstrap.Toast(toast);
+  bootstrapToast.show();
+
+  // Remove the toast after it's hidden
+  toast.addEventListener('hidden.bs.toast', () => {
+    toast.remove();
+  });
 }
 
 const appointmentStack = new AppointmentStack(message);
@@ -38,6 +72,7 @@ async function renderDoctorList() {
 
 async function contactFormSend(event) {
 
+  event.preventDefault();
   // Get appointment details
   const inputNombre = document.getElementById("nombre");
   const paciente = inputNombre.value;
@@ -50,7 +85,18 @@ async function contactFormSend(event) {
 
   // Extract name and specialty from the selected value
   const [name, specialty] = selectedDoctor.split(" - ");
-  appointmentStack.push({ name, specialty, paciente, fechaHora })
+
+  // Confirmation message
+  const isConfirmed = window.confirm(`Tu cita con el doctor ${name} (${specialty}) fue agendada para ${fechaHora}. ¿Es correcto?`);
+
+  if (isConfirmed) {
+    console.log("Cita confirmada:", { name, specialty, paciente, fechaHora });
+    appointmentStack.push({ name, specialty, paciente, fechaHora });
+    renderUpcommingAppointmentList();
+  } else {
+    console.log("Cita no confirmada. Usuario canceló.");
+    return
+  }
 }
 
 async function renderUpcommingAppointmentList() {
