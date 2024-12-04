@@ -1,7 +1,7 @@
 import '../scss/styles.scss'
 import { AppointmentStack, createAppointmentListItemHTML, renderAppointmentTable } from './components/appointments';
 
-const appointmentStack = new AppointmentStack(renderAppointmentList);
+const appointmentStack = new AppointmentStack(renderComponents);
 
 function getSelectedAppointmentList() {
   // Get the list of appointments to be rendered according to the option selected
@@ -37,8 +37,12 @@ function renderAppointmentList() {
   };
 }
 
-document.addEventListener('DOMContentLoaded', renderAppointmentList());
-document.addEventListener('DOMContentLoaded', renderAppointmentTable(appointmentStack.getSortedStack()));
+function renderComponents() {
+  renderAppointmentList();
+  renderAppointmentTable(appointmentStack.getSortedStack());
+}
+
+document.addEventListener('DOMContentLoaded', renderComponents());
 document.querySelectorAll('input[name="options"]').forEach((radio) => {
   radio.addEventListener('change', renderAppointmentList);
 });
