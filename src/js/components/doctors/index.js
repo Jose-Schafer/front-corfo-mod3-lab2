@@ -1,13 +1,13 @@
 import { capitalizeAllAttributes } from '../../utils/modifiers';
 import { createDoctorHTML } from './html-builder';
+import { fetchDoctorData } from '../../api/doctors';
 
 export async function loadDoctorCards(getSortAscending) {
   try {
-    let response = await fetch('../../public/static/json/especialistas.json');
-    const especialistas = await response.json();
+    const especialistasPromise = fetchDoctorData('../../public/static/json/especialistas.json');
+    const generalesPromise = fetchDoctorData('../../public/static/json/generales.json');
 
-    response = await fetch('../../public/static/json/generales.json');
-    const generales = await response.json();
+    const [especialistas, generales] = await Promise.all([especialistasPromise, generalesPromise]);
 
     // Mergear jsons
     const doctors = [...especialistas, ...generales]

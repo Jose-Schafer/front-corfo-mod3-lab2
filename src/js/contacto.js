@@ -1,5 +1,6 @@
 import '../scss/styles.scss'
 import { AppointmentStack, createDoctorListItemHTML, capitalizeAllAttributes, createUpcommingAppointmentItemHTML } from './components/appointments';
+import { fetchDoctorData } from './api/doctors';
 
 const message = () => {
   alert("Tu cita fue agendada correctamente")
@@ -8,27 +9,31 @@ const message = () => {
 const appointmentStack = new AppointmentStack(message);
 
 async function renderDoctorList() {
-  let response = await fetch('../../public/static/json/especialistas.json');
-  const especialistas = await response.json();
+  try {
+    const especialistasPromise = fetchDoctorData('../../public/static/json/especialistas.json');
+    const generalesPromise = fetchDoctorData('../../public/static/json/generales.json');
 
-  response = await fetch('../../public/static/json/generales.json');
-  const generales = await response.json();
+    const [especialistas, generales] = await Promise.all([especialistasPromise, generalesPromise]);
 
-  // Merge jsons
-  const doctors = [...especialistas, ...generales]
 
-  // Doctor list
-  const container = document.getElementById("doctor-list");
+    // Merge jsons
+    const doctors = [...especialistas, ...generales]
 
-  doctors.forEach((doctor) => {
-    let customDoctor = { ...doctor };
-    customDoctor = capitalizeAllAttributes(customDoctor);
+    // Doctor list
+    const container = document.getElementById("doctor-list");
 
-    const { name, specialty } = customDoctor;
+    doctors.forEach((doctor) => {
+      let customDoctor = { ...doctor };
+      customDoctor = capitalizeAllAttributes(customDoctor);
 
-    const doctorCard = createDoctorListItemHTML(name, specialty, appointmentStack);
-    container.appendChild(doctorCard);
-  })
+      const { name, specialty } = customDoctor;
+
+      const doctorCard = createDoctorListItemHTML(name, specialty, appointmentStack);
+      container.appendChild(doctorCard);
+    })
+  } catch (error) {
+    console.log("Error while obtaining the list of doctors:", error.message)
+  }
 }
 
 async function renderUpcommingAppointmentList() {
