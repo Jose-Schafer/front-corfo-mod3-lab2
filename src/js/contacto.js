@@ -101,6 +101,7 @@ async function contactFormSend(event) {
 
 async function renderUpcommingAppointmentList() {
   const container = document.getElementById("upcomming-appointment-list")
+  container.innerHTML = '';
 
   const appointmentList = appointmentStack.getSortedStack();
 
